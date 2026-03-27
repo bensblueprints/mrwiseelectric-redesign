@@ -10,7 +10,27 @@ export interface ServiceAreaData {
   electricalChallenges: string[];
   testimonialName?: string;
   testimonialText?: string;
+  heroImage: string;
 }
+
+// Unsplash stock photos for Atlanta area locations
+const heroImages = {
+  "east-atlanta": "https://images.unsplash.com/photo-1575917649705-5b59aaa12e6b?w=1920&q=80", // Atlanta neighborhood street
+  "west-side-atlanta": "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1920&q=80", // Modern home exterior
+  "southwest-atlanta": "https://images.unsplash.com/photo-1558036117-15d82a90b9b1?w=1920&q=80", // Suburban homes
+  "south-fulton": "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80", // New construction home
+  "fairburn": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=80", // Small town home
+  "college-park": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&q=80", // Commercial buildings
+  "mableton": "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1920&q=80", // Suburban neighborhood
+  "union-city": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1920&q=80", // Shopping center area
+  "stockbridge": "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=80", // Large home
+  "mcdonough": "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=1920&q=80", // Historic town square
+  "east-point": "https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=1920&q=80", // Urban residential
+  "west-midtown-atlanta": "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1920&q=80", // Loft apartments
+  "atlanta-northwest": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&q=80", // Luxury estate
+  "decatur": "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=1920&q=80", // Craftsman bungalow
+  "sandy-springs": "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1920&q=80", // Upscale neighborhood
+};
 
 export const serviceAreasData: ServiceAreaData[] = [
   {
@@ -29,7 +49,8 @@ export const serviceAreasData: ServiceAreaData[] = [
       "Aluminum wiring concerns in 1960s-70s construction"
     ],
     testimonialName: "Robert Davis",
-    testimonialText: "We've used Mr. Wise for both our home and our small business. Always reliable, always honest. They explain everything clearly."
+    testimonialText: "We've used Mr. Wise for both our home and our small business. Always reliable, always honest. They explain everything clearly.",
+    heroImage: heroImages["east-atlanta"]
   },
   {
     name: "West Side Atlanta",
@@ -45,7 +66,8 @@ export const serviceAreasData: ServiceAreaData[] = [
       "New construction requiring full electrical systems",
       "Panel upgrades for home additions and ADUs",
       "EV charger installations for new homeowners"
-    ]
+    ],
+    heroImage: heroImages["west-side-atlanta"]
   },
   {
     name: "Southwest Atlanta",
@@ -61,7 +83,8 @@ export const serviceAreasData: ServiceAreaData[] = [
       "Service upgrades from 100A to 200A panels",
       "Outdoor lighting for larger properties",
       "Generator installations for storm preparedness"
-    ]
+    ],
+    heroImage: heroImages["southwest-atlanta"]
   },
   {
     name: "City of South Fulton",
@@ -79,7 +102,8 @@ export const serviceAreasData: ServiceAreaData[] = [
       "Landscape and security lighting"
     ],
     testimonialName: "Michael Johnson",
-    testimonialText: "Mr. Wise Electric upgraded our entire panel in one day. Professional, clean work, and fair pricing. 42 years of experience really shows."
+    testimonialText: "Mr. Wise Electric upgraded our entire panel in one day. Professional, clean work, and fair pricing. 42 years of experience really shows.",
+    heroImage: heroImages["south-fulton"]
   },
   {
     name: "Fairburn",
@@ -95,7 +119,8 @@ export const serviceAreasData: ServiceAreaData[] = [
       "New subdivision complete electrical",
       "Storm damage repairs and upgrades",
       "Agricultural and barn electrical services"
-    ]
+    ],
+    heroImage: heroImages["fairburn"]
   },
   {
     name: "College Park",
@@ -113,7 +138,8 @@ export const serviceAreasData: ServiceAreaData[] = [
       "Emergency backup power systems"
     ],
     testimonialName: "Sarah Williams",
-    testimonialText: "Had an emergency with flickering lights late evening. They came out first thing the next morning and fixed the issue quickly. Highly recommend!"
+    testimonialText: "Had an emergency with flickering lights late evening. They came out first thing the next morning and fixed the issue quickly. Highly recommend!",
+    heroImage: heroImages["college-park"]
   },
   {
     name: "Mableton",
@@ -131,7 +157,8 @@ export const serviceAreasData: ServiceAreaData[] = [
       "Pool and hot tub electrical installations"
     ],
     testimonialName: "Jennifer Martinez",
-    testimonialText: "Best electrician in Atlanta. Period. They rewired our 1960s home and it was a huge job. Done on time, on budget. Can't say enough good things."
+    testimonialText: "Best electrician in Atlanta. Period. They rewired our 1960s home and it was a huge job. Done on time, on budget. Can't say enough good things.",
+    heroImage: heroImages["mableton"]
   },
   {
     name: "Union City",
@@ -147,7 +174,8 @@ export const serviceAreasData: ServiceAreaData[] = [
       "New construction homes electrical",
       "Service upgrades for home additions",
       "Energy-efficient lighting retrofits"
-    ]
+    ],
+    heroImage: heroImages["union-city"]
   },
   {
     name: "Stockbridge",
@@ -163,7 +191,8 @@ export const serviceAreasData: ServiceAreaData[] = [
       "Large home electrical systems",
       "Commercial tenant buildouts",
       "Emergency generator installations"
-    ]
+    ],
+    heroImage: heroImages["stockbridge"]
   },
   {
     name: "McDonough",
@@ -179,7 +208,8 @@ export const serviceAreasData: ServiceAreaData[] = [
       "New construction subdivision work",
       "Restaurant and retail electrical",
       "Outdoor event and landscape lighting"
-    ]
+    ],
+    heroImage: heroImages["mcdonough"]
   },
   {
     name: "East Point",
@@ -195,7 +225,8 @@ export const serviceAreasData: ServiceAreaData[] = [
       "Split-level home rewiring",
       "Commercial storefront electrical",
       "MARTA-adjacent property services"
-    ]
+    ],
+    heroImage: heroImages["east-point"]
   },
   {
     name: "West Midtown Atlanta",
@@ -211,7 +242,8 @@ export const serviceAreasData: ServiceAreaData[] = [
       "Restaurant and bar electrical installations",
       "High-rise residential services",
       "Commercial three-phase power"
-    ]
+    ],
+    heroImage: heroImages["west-midtown-atlanta"]
   },
   {
     name: "Atlanta Northwest",
@@ -227,7 +259,8 @@ export const serviceAreasData: ServiceAreaData[] = [
       "Pool house and guest house wiring",
       "Landscape and driveway lighting",
       "Home theater and automation wiring"
-    ]
+    ],
+    heroImage: heroImages["atlanta-northwest"]
   },
   {
     name: "Decatur",
@@ -243,7 +276,8 @@ export const serviceAreasData: ServiceAreaData[] = [
       "Knob-and-tube replacement",
       "Kitchen and bathroom circuit additions",
       "Historic fixture compatibility"
-    ]
+    ],
+    heroImage: heroImages["decatur"]
   },
   {
     name: "Sandy Springs",
@@ -259,7 +293,8 @@ export const serviceAreasData: ServiceAreaData[] = [
       "Corporate office electrical services",
       "Data center power requirements",
       "EV charging station installations"
-    ]
+    ],
+    heroImage: heroImages["sandy-springs"]
   }
 ];
 

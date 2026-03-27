@@ -180,7 +180,16 @@ export default async function ServiceAreaPage({ params }: Props) {
       <main>
         {/* Hero Section */}
         <section className="relative bg-stone-900 py-20 lg:py-28 overflow-hidden">
-          {/* Background Pattern */}
+          {/* Background Image */}
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{
+              backgroundImage: `url(${area.heroImage})`,
+            }}
+          />
+          {/* Dark Overlay */}
+          <div className="absolute inset-0 bg-stone-900/80" />
+          {/* Pattern Overlay */}
           <div className="absolute inset-0 opacity-5">
             <div
               className="absolute inset-0"
@@ -384,7 +393,7 @@ export default async function ServiceAreaPage({ params }: Props) {
               {services.map((service) => (
                 <Link
                   key={service.slug}
-                  href={`/services/${service.slug}`}
+                  href={`/service-areas/${area.slug}/${service.slug}`}
                   className="group bg-white rounded-xl p-6 shadow-sm hover:shadow-lg transition-all border border-stone-200 hover:border-amber-300"
                 >
                   <div className="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center text-amber-600 mb-4 group-hover:bg-amber-500 group-hover:text-white transition-colors">
