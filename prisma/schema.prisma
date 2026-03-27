@@ -4,6 +4,7 @@
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["driverAdapters"]
+  binaryTargets   = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
@@ -95,21 +96,33 @@ model Testimonial {
 
 // Contact form submissions
 model ContactInquiry {
-  id          String        @id @default(cuid())
-  name        String
-  email       String
-  phone       String?
-  service     String?
-  message     String
-  status      InquiryStatus @default(NEW)
-  notes       String?
-  assignedTo  User?         @relation("AssignedTo", fields: [assignedToId], references: [id])
-  assignedToId String?      @map("assigned_to_id")
-  respondedAt DateTime?     @map("responded_at")
-  createdAt   DateTime      @default(now()) @map("created_at")
-  updatedAt   DateTime      @updatedAt @map("updated_at")
+  id              String           @id @default(cuid())
+  name            String
+  email           String
+  phone           String?
+  service         String?
+  message         String
+  status          InquiryStatus    @default(NEW)
+  notes           String?
+  assignedTo      User?            @relation("AssignedTo", fields: [assignedToId], references: [id])
+  assignedToId    String?          @map("assigned_to_id")
+  respondedAt     DateTime?        @map("responded_at")
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt @map("updated_at")
+  source          InquirySource    @default(WEBSITE) @map("source")
+
+  // Relations
+  voiceAgentCalls VoiceAgentCall[]
 
   @@map("contact_inquiries")
+}
+
+enum InquirySource {
+  WEBSITE
+  VOICE_AGENT
+  PHONE
+  EMAIL
+  REFERRAL
 }
 
 enum InquiryStatus {
@@ -130,4 +143,92 @@ model ServiceArea {
   createdAt DateTime @default(now()) @map("created_at")
 
   @@map("service_areas")
+}
+
+// Voice Agent Calls from ElevenLabs
+model VoiceAgentCall {
+  id                  String          @id @default(cuid())
+  conversationId      String          @unique @map("conversation_id") // ElevenLabs conversation ID
+  agentId             String          @map("agent_id")
+
+  // Call metadata
+  callStatus          CallStatus      @default(IN_PROGRESS) @map("call_status")
+  callDurationSeconds Int?            @map("call_duration_seconds")
+  startedAt           DateTime        @default(now()) @map("started_at")
+  endedAt             DateTime?       @map("ended_at")
+
+  // Customer type
+  customerType        CustomerType    @default(NEW) @map("customer_type")
+
+  // Collected customer info
+  customerName        String?         @map("customer_name")
+  customerPhone       String?         @map("customer_phone")
+  customerEmail       String?         @map("customer_email")
+
+  // Service address
+  serviceStreet       String?         @map("service_street")
+  serviceCity         String?         @map("service_city")
+  serviceZip          String?         @map("service_zip")
+
+  // Service request details
+  serviceType         String?         @map("service_type") // residential, commercial, panel, rewiring, lighting, troubleshooting
+  issueDescription    String?         @map("issue_description")
+  isEmergency         Boolean         @default(false) @map("is_emergency")
+  preferredDate       String?         @map("preferred_date")
+  preferredTime       String?         @map("preferred_time")
+
+  // Lead source
+  referralSource      String?         @map("referral_source") // How they heard about us
+
+  // Transcript and analysis
+  transcript          String?         @db.Text
+  summary             String?         @db.Text
+  sentiment           String?         // positive, neutral, negative
+
+  // Follow-up status
+  followUpStatus      FollowUpStatus  @default(PENDING) @map("follow_up_status")
+  followUpNotes       String?         @map("follow_up_notes")
+  followUpAt          DateTime?       @map("follow_up_at")
+
+  // Audio recording URL (if available)
+  audioUrl            String?         @map("audio_url")
+
+  // Raw webhook data
+  rawWebhookData      Json?           @map("raw_webhook_data")
+
+  createdAt           DateTime        @default(now()) @map("created_at")
+  updatedAt           DateTime        @updatedAt @map("updated_at")
+
+  // Relations
+  inquiry             ContactInquiry? @relation(fields: [inquiryId], references: [id])
+  inquiryId           String?         @map("inquiry_id")
+
+  @@index([callStatus])
+  @@index([customerType])
+  @@index([customerPhone])
+  @@index([customerEmail])
+  @@index([followUpStatus])
+  @@map("voice_agent_calls")
+}
+
+enum CallStatus {
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+  ABANDONED
+}
+
+enum CustomerType {
+  NEW
+  EXISTING
+  UNKNOWN
+}
+
+enum FollowUpStatus {
+  PENDING
+  CALLED_BACK
+  SCHEDULED
+  COMPLETED
+  NO_ANSWER
+  CANCELLED
 }

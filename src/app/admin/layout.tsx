@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Zap,
   LayoutDashboard,
   MessageSquare,
   Wrench,
@@ -16,11 +16,13 @@ import {
   Menu,
   X,
   ChevronRight,
+  Phone,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const navItems = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
+  { label: "Voice Leads", href: "/admin/voice-leads", icon: Phone },
   { label: "Inquiries", href: "/admin/inquiries", icon: MessageSquare },
   { label: "Services", href: "/admin/services", icon: Wrench },
   { label: "FAQs", href: "/admin/faqs", icon: HelpCircle },
@@ -73,10 +75,13 @@ export default function AdminLayout({
       {/* Mobile Header */}
       <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-stone-900 z-50 flex items-center justify-between px-4">
         <Link href="/admin" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-amber-500 rounded flex items-center justify-center">
-            <Zap className="w-5 h-5 text-stone-900" />
-          </div>
-          <span className="text-white font-display">ADMIN</span>
+          <Image
+            src="/images/logo.png"
+            alt="Mr. Wise Electric"
+            width={120}
+            height={40}
+            className="h-10 w-auto"
+          />
         </Link>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -95,18 +100,17 @@ export default function AdminLayout({
         <div className="h-full flex flex-col">
           {/* Logo */}
           <div className="p-6 border-b border-stone-800">
-            <Link href="/admin" className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-amber-500 rounded flex items-center justify-center">
-                <Zap className="w-6 h-6 text-stone-900" />
-              </div>
-              <div>
-                <span className="text-lg font-display text-white tracking-wide">
-                  MR. WISE
-                </span>
-                <span className="block text-xs text-amber-500 font-medium tracking-widest">
-                  ADMIN PANEL
-                </span>
-              </div>
+            <Link href="/admin" className="flex flex-col items-center gap-2">
+              <Image
+                src="/images/logo.png"
+                alt="Mr. Wise Electric"
+                width={160}
+                height={53}
+                className="h-12 w-auto"
+              />
+              <span className="text-xs text-amber-500 font-medium tracking-widest">
+                ADMIN PANEL
+              </span>
             </Link>
           </div>
 

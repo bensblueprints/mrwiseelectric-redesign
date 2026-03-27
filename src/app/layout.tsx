@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Bebas_Neue, DM_Sans } from "next/font/google";
 import "./globals.css";
+import { VoiceAgentLoader } from "@/components/voice-agent/VoiceAgentLoader";
 
 const bebasNeue = Bebas_Neue({
   weight: "400",
@@ -63,6 +64,7 @@ export default function RootLayout({
     <html lang="en" className={`${bebasNeue.variable} ${dmSans.variable}`}>
       <body className="min-h-screen flex flex-col antialiased">
         {children}
+        <VoiceAgentLoader />
       </body>
     </html>
   );

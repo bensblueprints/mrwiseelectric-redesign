@@ -10,6 +10,7 @@ import {
   CheckCircle,
   AlertCircle,
   Loader2,
+  Phone,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -26,6 +27,8 @@ interface Stats {
   newInquiries: number;
   totalServices: number;
   totalTestimonials: number;
+  totalVoiceCalls: number;
+  pendingVoiceCalls: number;
 }
 
 function StatCard({
@@ -87,6 +90,8 @@ export default function AdminDashboard() {
     newInquiries: 0,
     totalServices: 0,
     totalTestimonials: 0,
+    totalVoiceCalls: 0,
+    pendingVoiceCalls: 0,
   });
   const [recentInquiries, setRecentInquiries] = useState<Inquiry[]>([]);
   const [loading, setLoading] = useState(true);
@@ -94,25 +99,30 @@ export default function AdminDashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [inquiriesRes, servicesRes, testimonialsRes] = await Promise.all([
+        const [inquiriesRes, servicesRes, testimonialsRes, voiceCallsRes] = await Promise.all([
           fetch("/api/admin/inquiries"),
           fetch("/api/admin/services"),
           fetch("/api/admin/testimonials"),
+          fetch("/api/admin/voice-calls"),
         ]);
 
         const inquiries = await inquiriesRes.json();
         const services = await servicesRes.json();
         const testimonials = await testimonialsRes.json();
+        const voiceCalls = await voiceCallsRes.json();
 
         const inquiriesList = Array.isArray(inquiries) ? inquiries : [];
         const servicesList = Array.isArray(services) ? services : [];
         const testimonialsList = Array.isArray(testimonials) ? testimonials : [];
+        const voiceCallsList = Array.isArray(voiceCalls) ? voiceCalls : [];
 
         setStats({
           totalInquiries: inquiriesList.length,
           newInquiries: inquiriesList.filter((i: Inquiry) => i.status === "NEW").length,
           totalServices: servicesList.filter((s: { isActive: boolean }) => s.isActive).length,
           totalTestimonials: testimonialsList.filter((t: { isActive: boolean }) => t.isActive).length,
+          totalVoiceCalls: voiceCallsList.length,
+          pendingVoiceCalls: voiceCallsList.filter((v: { followUpStatus: string }) => v.followUpStatus === "PENDING").length,
         });
 
         setRecentInquiries(inquiriesList.slice(0, 5));
@@ -145,7 +155,14 @@ export default function AdminDashboard() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+        <StatCard
+          title="Voice Leads"
+          value={stats.pendingVoiceCalls}
+          icon={Phone}
+          color="bg-red-500"
+          href="/admin/voice-leads"
+        />
         <StatCard
           title="New Inquiries"
           value={stats.newInquiries}

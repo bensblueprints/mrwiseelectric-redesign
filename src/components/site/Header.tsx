@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Phone, Zap } from "lucide-react";
+import { Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteData } from "@/lib/data";
 
@@ -42,21 +43,15 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative">
-              <div className="w-12 h-12 bg-amber-500 rounded-sm flex items-center justify-center group-hover:bg-amber-400 transition-colors">
-                <Zap className="w-7 h-7 text-stone-900" />
-              </div>
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-amber-400 rounded-full animate-pulse" />
-            </div>
-            <div className="hidden sm:block">
-              <span className="text-2xl font-display text-white tracking-wide">
-                MR. WISE
-              </span>
-              <span className="block text-xs text-amber-500 font-medium tracking-widest">
-                ELECTRIC
-              </span>
-            </div>
+          <Link href="/" className="flex items-center group">
+            <Image
+              src="/images/logo.png"
+              alt="Mr. Wise Electric"
+              width={180}
+              height={60}
+              className="h-14 w-auto group-hover:scale-105 transition-transform"
+              priority
+            />
           </Link>
 
           {/* Desktop Navigation */}

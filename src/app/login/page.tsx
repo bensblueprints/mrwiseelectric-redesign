@@ -3,8 +3,9 @@
 import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { Zap, Mail, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -52,18 +53,15 @@ function LoginForm() {
     <div className="bg-white rounded-2xl p-8 shadow-2xl">
       {/* Logo */}
       <div className="flex justify-center mb-8">
-        <Link href="/" className="flex items-center gap-3">
-          <div className="w-12 h-12 bg-amber-500 rounded-sm flex items-center justify-center">
-            <Zap className="w-7 h-7 text-stone-900" />
-          </div>
-          <div>
-            <span className="text-2xl font-display text-stone-900 tracking-wide">
-              MR. WISE
-            </span>
-            <span className="block text-xs text-amber-500 font-medium tracking-widest">
-              ELECTRIC
-            </span>
-          </div>
+        <Link href="/">
+          <Image
+            src="/images/logo.png"
+            alt="Mr. Wise Electric"
+            width={200}
+            height={67}
+            className="h-16 w-auto"
+            priority
+          />
         </Link>
       </div>
 
@@ -164,19 +162,14 @@ function LoginFormFallback() {
   return (
     <div className="bg-white rounded-2xl p-8 shadow-2xl">
       <div className="flex justify-center mb-8">
-        <div className="flex items-center gap-3">
-          <div className="w-12 h-12 bg-amber-500 rounded-sm flex items-center justify-center">
-            <Zap className="w-7 h-7 text-stone-900" />
-          </div>
-          <div>
-            <span className="text-2xl font-display text-stone-900 tracking-wide">
-              MR. WISE
-            </span>
-            <span className="block text-xs text-amber-500 font-medium tracking-widest">
-              ELECTRIC
-            </span>
-          </div>
-        </div>
+        <Image
+          src="/images/logo.png"
+          alt="Mr. Wise Electric"
+          width={200}
+          height={67}
+          className="h-16 w-auto"
+          priority
+        />
       </div>
       <div className="flex justify-center">
         <Loader2 className="w-8 h-8 animate-spin text-stone-400" />
