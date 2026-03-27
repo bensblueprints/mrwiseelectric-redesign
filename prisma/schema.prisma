@@ -1,0 +1,132 @@
+// Prisma schema for Mr. Wise Electric
+// Using Neon PostgreSQL via Netlify
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_DATABASE_URL")
+}
+
+// Admin users for the CMS
+model User {
+  id             String    @id @default(cuid())
+  email          String    @unique
+  passwordHash   String    @map("password_hash")
+  name           String?
+  role           Role      @default(USER)
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  inquiriesAssigned ContactInquiry[] @relation("AssignedTo")
+
+  @@map("users")
+}
+
+enum Role {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
+
+// Site settings stored as key-value pairs
+model SiteSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     Json
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("site_settings")
+}
+
+// Services offered
+model Service {
+  id              String   @id @default(cuid())
+  title           String
+  slug            String   @unique
+  description     String
+  longDescription String?  @map("long_description")
+  icon            String   @default("Zap")
+  features        Json     @default("[]")
+  imageUrl        String?  @map("image_url")
+  isFeatured      Boolean  @default(false) @map("is_featured")
+  sortOrder       Int      @default(0) @map("sort_order")
+  isActive        Boolean  @default(true) @map("is_active")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@map("services")
+}
+
+// Frequently asked questions
+model Faq {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String
+  category  String   @default("general")
+  sortOrder Int      @default(0) @map("sort_order")
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("faqs")
+}
+
+// Customer testimonials
+model Testimonial {
+  id         String   @id @default(cuid())
+  name       String
+  location   String?
+  content    String
+  rating     Int      @default(5)
+  imageUrl   String?  @map("image_url")
+  isFeatured Boolean  @default(false) @map("is_featured")
+  isActive   Boolean  @default(true) @map("is_active")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@map("testimonials")
+}
+
+// Contact form submissions
+model ContactInquiry {
+  id          String        @id @default(cuid())
+  name        String
+  email       String
+  phone       String?
+  service     String?
+  message     String
+  status      InquiryStatus @default(NEW)
+  notes       String?
+  assignedTo  User?         @relation("AssignedTo", fields: [assignedToId], references: [id])
+  assignedToId String?      @map("assigned_to_id")
+  respondedAt DateTime?     @map("responded_at")
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+
+  @@map("contact_inquiries")
+}
+
+enum InquiryStatus {
+  NEW
+  CONTACTED
+  SCHEDULED
+  COMPLETED
+  SPAM
+}
+
+// Service areas
+model ServiceArea {
+  id        String   @id @default(cuid())
+  name      String
+  isPrimary Boolean  @default(false) @map("is_primary")
+  sortOrder Int      @default(0) @map("sort_order")
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("service_areas")
+}

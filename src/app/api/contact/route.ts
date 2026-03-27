@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import prisma from "@/lib/db";
 
 const contactSchema = z.object({
   name: z.string().min(2),
@@ -24,23 +25,19 @@ export async function POST(request: Request) {
 
     const { name, email, phone, service, message } = result.data;
 
-    // In production, you would:
-    // 1. Save to Supabase database
-    // 2. Send email notification
-    // 3. Possibly integrate with a CRM
-
-    // For now, we'll log the submission and return success
-    console.log("Contact form submission:", {
-      name,
-      email,
-      phone,
-      service,
-      message,
-      timestamp: new Date().toISOString(),
+    // Save to database
+    await prisma.contactInquiry.create({
+      data: {
+        name,
+        email,
+        phone: phone || null,
+        service: service || null,
+        message,
+        status: "NEW",
+      },
     });
 
-    // Simulate a slight delay
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    // TODO: Send email notification (implement with Resend or Nodemailer)
 
     return NextResponse.json({
       success: true,
